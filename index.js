@@ -36,4 +36,23 @@ server.put("/projects/:id", (req, res) => {
   return res.json(projects);
 });
 
+//Rota para deletar o projeto com o id solicitado
+server.delete("/projects/:id", (req, res) => {
+  const { id } = req.params;
+
+  const projectIndex = projects.findIndex(p => p.id == id);
+  projects.splice(projectIndex, 1);
+
+  return res.send();
+});
+
+server.post("/projects/:id/tasks", (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  const project = projects.find(p => p.id == id);
+  project.tasks.push(title);
+
+  return res.json(project);
+});
 server.listen(3000);
