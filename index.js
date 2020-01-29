@@ -72,7 +72,9 @@ server.delete("/projects/:id", checkUserExist, (req, res) => {
   const { id } = req.params;
 
   const projectIndex = projects.findIndex(p => p.id == id);
-  projects.splice(projectIndex, 1);
+  if (projectIndex !== -1) {
+    projects.splice(projectIndex, 1);
+  }
 
   return res.send();
 });
