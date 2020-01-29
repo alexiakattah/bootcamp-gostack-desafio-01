@@ -11,7 +11,7 @@ function checkUserExist(req, res, next) {
   const { id } = req.params;
   const project = projects.find(p => p.id == id);
 
-  if (!req.body.projects) {
+  if (!project) {
     return res.status(400).json({ error: "not found" });
   }
   return next();
