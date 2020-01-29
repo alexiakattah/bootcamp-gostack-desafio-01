@@ -17,6 +17,18 @@ function checkUserExist(req, res, next) {
   return next();
 }
 
+//Checa se já existe usuário com mesmo ID
+function checkIDExist(req, res, next) {
+  const { id } = req.body;
+  const project = projects.findIndex(p => p.id == id);
+
+  if (project != -1) {
+    return res.status(400).json({ error: "Id do usuário ja existe" });
+  }
+
+  return next();
+}
+
 //conta quantas requisições foram feitas
 function reqCount(req, res, next) {
   console.count("Requisições");
@@ -26,7 +38,7 @@ function reqCount(req, res, next) {
 server.use(reqCount);
 
 //Rota que cria o id e title do projeto
-server.post("/projects", (req, res) => {
+server.post("/projects", checkIDExist, (req, res) => {
   const { id, title } = req.body;
 
   const project = {
